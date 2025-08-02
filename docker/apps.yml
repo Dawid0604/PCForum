@@ -1,0 +1,28 @@
+name: "Microservies"
+
+services:
+  config-service:
+    image: dawid0604/pcforum-config-service-application
+    container_name: config-service
+    environment:
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - SERVER_PORT=${CONFIG_SERVICE_PORT}
+    ports:
+      - "${CONFIG_SERVICE_PORT}:${CONFIG_SERVICE_PORT}"
+    restart: unless-stopped
+
+    healthcheck:
+      test: "curl --fail --silent localhost:${CONFIG_SERVICE_PORT}/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+    networks:
+      - pcforum_network
+
+networks:
+  pcforum_network:
+    driver: bridge
+    name: pcforum_network
