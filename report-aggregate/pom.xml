@@ -50,5 +50,18 @@
             <artifactId>config-service-configuration</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- DISCOVERY SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>discovery-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>discovery-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
