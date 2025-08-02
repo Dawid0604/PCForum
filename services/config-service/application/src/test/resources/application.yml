@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: config-service
+
+  profiles:
+    active: native
+
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/configurations
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  port: 8888
