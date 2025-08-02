@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${USER_MICROSERVICE_DB_HOST:localhost}:${USER_MICROSERVICE_POSTGRES_PORT}/${USER_MICROSERVICE_POSTGRES_DB}
+    username: ${USER_MICROSERVICE_POSTGRES_USER}
+    password: ${USER_MICROSERVICE_POSTGRES_PASSWORD}
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 4
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 3000
+
+      data-source-properties:
+        cachePrepStmts: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useLocalSessionState: true
+        useServerPrepStms: true
+
+  flyway:
+    schemas: ${USER_MICROSERVICE_POSTGRES_DB}
+    user: ${USER_MICROSERVICE_POSTGRES_USER}
+    password: ${USER_MICROSERVICE_POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${USER_MICROSERVICE_DB_HOST:localhost}:${USER_MICROSERVICE_POSTGRES_PORT}/${USER_MICROSERVICE_POSTGRES_DB}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+server:
+  port: 0
