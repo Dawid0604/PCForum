@@ -1,0 +1,37 @@
+blank_issues_enabled: false
+contact_links: []
+issue_templates:
+  - name: 🐛 Bug report
+    description: Report found application bug
+    title: "[BUG] "
+    labels: [bug]
+    assignees: []
+    template: bug_report.md
+
+  - name: ✨ New feature
+    description: Suggest new feature or improvements
+    title: "[FEATURE] "
+    labels: [enhancement]
+    assignees: []
+    template: feature_request.md
+
+  - name: 🔨 Refactoring
+    description: Report refactoring needs
+    title: "[REFACTOR] "
+    labels: [refactor]
+    assignees: []
+    template: refactor_task.md
+
+  - name: 🏗️ Technical debt
+    description: Technical problems to fix later
+    title: "[TECH DEBT] "
+    labels: [tech-debt]
+    assignees: []
+    template: tech_debt.md
+
+  - name: ✅ Test task
+    description: Adding tests request or tests fixing
+    title: "[TEST] "
+    labels: [tests]
+    assignees: []
+    template: test_task.md
