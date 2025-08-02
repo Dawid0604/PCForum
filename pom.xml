@@ -68,6 +68,7 @@
 
 	<modules>
 		<module>report-aggregate</module>
+		<module>services/config-service</module>
 	</modules>
 
 	<reporting>
