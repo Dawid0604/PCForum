@@ -1,0 +1,42 @@
+<project>
+    <parent>
+        <groupId>pl.dawid0604</groupId>
+        <artifactId>pcforum-root</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>report-aggregate</artifactId>
+    <name>PCForum - JaCoCo Report Aggregate</name>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+    	  		<version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>report-aggregate</id>
+
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <excludes>
+                        <exclude>**/PCForum**ServiceApplication.class</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+    </dependencies>
+</project>
