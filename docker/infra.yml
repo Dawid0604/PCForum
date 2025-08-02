@@ -1,0 +1,39 @@
+name: "Infrastructure"
+
+volumes:
+  user-service-postgres-volume:
+
+services:
+  user-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: user-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${USER_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${USER_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${USER_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${USER_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${USER_MICROSERVICE_POSTGRES_PORT}"
+
+    ports:
+      - "${USER_MICROSERVICE_POSTGRES_PORT}:${USER_MICROSERVICE_POSTGRES_PORT}"
+
+    volumes:
+      - user-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+networks:
+  pcforum_network:
+    driver: bridge
+    name: pcforum_network
