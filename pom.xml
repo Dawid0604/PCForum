@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.0</version>
+		<relativePath/>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pl.dawid0604</groupId>
+	<artifactId>pcforum-root</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>PCForum</name>
+	<packaging>pom</packaging>
+
+	<developers>
+		<developer>
+			<id>dawid0604</id>
+			<name>Dawid Sikora</name>
+			<url>https://github.com/Dawid0604</url>
+
+			<roles>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+
+			<timezone>Europe/Warsaw</timezone>
+
+			<properties>
+				<github.username>dawid0604</github.username>
+			</properties>
+		</developer>
+	</developers>
+
+	<properties>
+		<java.version>21</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.release>${java.version}</maven.compiler.release>
+		<dockerImageName>dawid0604/pcforum-${project.artifactId}</dockerImageName>
+
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<jacoco.version>0.8.13</jacoco.version>
+		<caffeine.version>3.2.1</caffeine.version>
+		<jxrPlugin.version>3.6.0</jxrPlugin.version>
+		<jib.version>3.4.6</jib.version>
+		<jdepend.version>2.1</jdepend.version>
+		<archunit.version>1.4.1</archunit.version>
+		<spotbugsPlugin.version>4.9.3.0</spotbugsPlugin.version>
+		<spotbugs.version>4.9.3</spotbugs.version>
+		<maven.enforcer.version>3.6.1</maven.enforcer.version>
+		<checkerframework.version>3.49.5</checkerframework.version>
+		<commons-lang3-version>3.18.0</commons-lang3-version>
+		<guava.version>33.4.8-jre</guava.version>
+		<errorProne.version>2.38.0</errorProne.version>
+		<apache.httpclient.version>4.5.14</apache.httpclient.version>
+		<hk2.api.version>3.1.1</hk2.api.version>
+		<xtream.version>1.4.21</xtream.version>
+		<apache.commons-compress.version>1.27.1</apache.commons-compress.version>
+	</properties>
+
+	<modules>
+		<module>report-aggregate</module>
+	</modules>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${jxrPlugin.version}</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-compress</artifactId>
+				<version>${apache.commons-compress.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.tngtech.archunit</groupId>
+				<artifactId>archunit-junit5</artifactId>
+				<version>${archunit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-annotations</artifactId>
+				<version>${spotbugs.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.errorprone</groupId>
+				<artifactId>error_prone_annotations</artifactId>
+				<version>${errorProne.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.hk2</groupId>
+				<artifactId>hk2-api</artifactId>
+				<version>${hk2.api.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${apache.httpclient.version}</version>
+
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xtream.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.google.cloud.tools</groupId>
+					<artifactId>jib-maven-plugin</artifactId>
+					<version>${jib.version}</version>
+
+					<configuration>
+						<container>
+							<!--suppress UnresolvedMavenProperty -->
+							<mainClass>${mainClass}</mainClass>
+						</container>
+
+						<from>
+							<image>dawid0604/openjdk-21-pcforum-base@sha256:6eb914c279b15b1111705cf829bf8f4d94a9173f00c1ab5d78c28b043dcd7b35</image>
+						</from>
+
+						<to>
+							<image>${dockerImageName}</image>
+							<auth>
+								<!--suppress UnresolvedMavenProperty -->
+								<username>${docker.publishRegistry.username}</username>
+
+								<!--suppress UnresolvedMavenProperty -->
+								<password>${docker.publishRegistry.password}</password>
+							</auth>
+						</to>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<failOnNoGitDirectory>false</failOnNoGitDirectory>
+					<failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<includeOnlyProperties>
+						<includeOnlyProperty>^git.branch$</includeOnlyProperty>
+						<includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+						<includeOnlyProperty>^git.commit.user.name$</includeOnlyProperty>
+						<includeOnlyProperty>^git.commit.message.full$</includeOnlyProperty>
+					</includeOnlyProperties>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.3.1</version>
+
+				<configuration>
+					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>false</failsOnError>
+					<violationSeverity>warning</violationSeverity>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+				<version>${jdepend.version}</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.14.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<release>${java.version}</release>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven.enforcer.version}</version>
+
+				<executions>
+					<execution>
+						<id>enforce-rules</id>
+
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>${java.version}</version>
+								</requireJavaVersion>
+								<dependencyConvergence/>
+								<requireUpperBoundDeps/>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+    	  		<groupId>org.jacoco</groupId>
+    	  		<artifactId>jacoco-maven-plugin</artifactId>
+    	  		<version>${jacoco.version}</version>
+    	  		<executions>
+    	  		  <execution>
+    	  		    <id>prepare-agent</id>
+    	  		    <goals>
+    	  		      <goal>prepare-agent</goal>
+    	  		    </goals>
+    	  		  </execution>
+
+    	  		  <execution>
+    	  		    <id>report</id>
+    	  		    <phase>prepare-package</phase>
+    	  		    <goals>
+    	  		      <goal>report</goal>
+    	  		    </goals>
+    	  		  </execution>
+
+    	  		  <execution>
+    	  		    <id>check</id>
+    	  		    <goals>
+    	  		      <goal>check</goal>
+    	  		    </goals>
+
+    	  		    <configuration>
+    	  		      <rules>
+    	  		        <rule>
+    	  		          <element>BUNDLE</element>
+    	  		          <limits>
+    	  		            <limit>
+    	  		              <counter>INSTRUCTION</counter>
+    	  		              <value>COVEREDRATIO</value>
+    	  		              <minimum>0.80</minimum>
+    	  		            </limit>
+    	  		          </limits>
+    	  		        </rule>
+    	  		      </rules>
+    	  		    </configuration>
+    	  		  </execution>
+    	  		</executions>
+		    </plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${jxrPlugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.26.0</version>
+
+				<configuration>
+					<rulesets>
+						<ruleset>config/pmd/custom-ruleset.xml</ruleset>
+					</rulesets>
+				</configuration>
+
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+							<goal>cpd-check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugsPlugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
