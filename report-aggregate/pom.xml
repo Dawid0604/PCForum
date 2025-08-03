@@ -131,5 +131,42 @@
             <artifactId>notification-service-configuration</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- THREAD SERVICE MODULES-->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

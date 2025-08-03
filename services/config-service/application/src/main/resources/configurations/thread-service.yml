@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${THREAD_MICROSERVICE_DB_HOST:localhost}:${THREAD_MICROSERVICE_POSTGRES_PORT}/${THREAD_MICROSERVICE_POSTGRES_DB}
+    username: ${THREAD_MICROSERVICE_POSTGRES_USER}
+    password: ${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 6
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 3000
+
+      data-source-properties:
+        cachePrepStmts: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useLocalSessionState: true
+        useServerPrepStms: true
+
+  flyway:
+    schemas: ${THREAD_MICROSERVICE_POSTGRES_DB}
+    user: ${THREAD_MICROSERVICE_POSTGRES_USER}
+    password: ${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${THREAD_MICROSERVICE_DB_HOST:localhost}:${THREAD_MICROSERVICE_POSTGRES_PORT}/${THREAD_MICROSERVICE_POSTGRES_DB}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_SERVER}
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        #        spring.json.trusted.packages: '*'
+        spring.kafka.consumer.enable-aut-commit: false
+        spring.kafka.listener.ack-mode: MANUAL_IMMEDIATE
+
+server:
+  port: 0
