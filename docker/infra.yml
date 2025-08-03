@@ -2,6 +2,7 @@ name: "Infrastructure"
 
 volumes:
   user-service-postgres-volume:
+  notification-service-postgres-volume:
 
 services:
   user-service-postgres-db:
@@ -15,10 +16,6 @@ services:
       - PGPORT=${USER_MICROSERVICE_POSTGRES_PORT}
 
     command: "-p ${USER_MICROSERVICE_POSTGRES_PORT}"
-
-    ports:
-      - "${USER_MICROSERVICE_POSTGRES_PORT}:${USER_MICROSERVICE_POSTGRES_PORT}"
-
     volumes:
       - user-service-postgres-volume:/var/lib/postgresql/data
 
@@ -29,6 +26,74 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+    networks:
+      - pcforum_network
+
+  notification-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: notification-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${NOTIFICATION_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${NOTIFICATION_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${NOTIFICATION_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - notification-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  zookeeper:
+    image: zookeeper:3.9.3-jre-17
+    container_name: zookeeper
+    environment:
+      - ZOOKEEPER_PORT=${ZOOKEEPER_PORT}
+
+    healthcheck:
+      test: >
+        bash -c "nc -z localhost $${ZOOKEEPER_PORT}"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.9.1
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+    healthcheck:
+      test: >
+        bash -c "nc -z localhost $${CUSTOM_KAFKA_PORT}"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    environment:
+      - CUSTOM_KAFKA_PORT=${CUSTOM_KAFKA_PORT}
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:${ZOOKEEPER_PORT}
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:${INTERNAL_KAFKA_PORT},PLAINTEXT_HOST://host.docker.internal:${CUSTOM_KAFKA_PORT}
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:${INTERNAL_KAFKA_PORT},PLAINTEXT_HOST://0.0.0.0:${CUSTOM_KAFKA_PORT}
 
     networks:
       - pcforum_network
