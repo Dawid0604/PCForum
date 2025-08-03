@@ -1,0 +1,28 @@
+name: "Infrastructure"
+
+services:
+  user-service-postgres-db:
+    ports:
+      - "${USER_MICROSERVICE_POSTGRES_PORT}:${USER_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  notification-service-postgres-db:
+    ports:
+      - "${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}:${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  thread-service-postgres-db:
+    ports:
+      - "${THREAD_MICROSERVICE_POSTGRES_PORT}:${THREAD_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+networks:
+  pcforum_network:
+    driver: bridge
+    name: pcforum_network
