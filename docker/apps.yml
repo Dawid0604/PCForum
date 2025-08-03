@@ -101,6 +101,36 @@ services:
     networks:
       - pcforum_network
 
+  thread-service:
+    image: dawid0604/pcforum-thread-service-application
+    container_name: thread-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - THREAD_MICROSERVICE_DB_HOST=thread-service-postgres-db
+      - THREAD_MICROSERVICE_POSTGRES_PORT=${THREAD_MICROSERVICE_POSTGRES_PORT}
+      - THREAD_MICROSERVICE_POSTGRES_USER=${THREAD_MICROSERVICE_POSTGRES_USER}
+      - THREAD_MICROSERVICE_POSTGRES_PASSWORD=${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
+      - THREAD_MICROSERVICE_POSTGRES_DB=${THREAD_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      thread-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
