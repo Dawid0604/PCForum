@@ -12,6 +12,16 @@ cat <<EOF > /pgadmin4/servers.json
       "Username": "${USER_DATABASE_USER}",
       "Password": "${USER_DATABASE_PASSWORD}",
       "SSLMode": "prefer"
+    },
+    "2": {
+      "Name": "${NOTIFICATION_SERVER_NAME}",
+      "Group": "Servers",
+      "Host": "${NOTIFICATION_SERVER_HOST}",
+      "Port": ${NOTIFICATION_DATABASE_PORT},
+      "MaintenanceDB": "${NOTIFICATION_DATABASE_NAME}",
+      "Username": "${NOTIFICATION_DATABASE_USER}",
+      "Password": "${NOTIFICATION_DATABASE_PASSWORD}",
+      "SSLMode": "prefer"
     }
   }
 }

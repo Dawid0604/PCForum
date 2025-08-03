@@ -15,11 +15,42 @@ services:
       USER_DATABASE_USER: ${USER_MICROSERVICE_POSTGRES_USER}
       USER_DATABASE_PASSWORD: ${USER_MICROSERVICE_POSTGRES_PASSWORD}
 
+      NOTIFICATION_SERVER_NAME: Notification Service
+      NOTIFICATION_SERVER_HOST: notification-service-postgres-db
+      NOTIFICATION_DATABASE_NAME: ${NOTIFICATION_MICROSERVICE_POSTGRES_DB}
+      NOTIFICATION_DATABASE_PORT: ${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}
+      NOTIFICATION_DATABASE_USER: ${NOTIFICATION_MICROSERVICE_POSTGRES_USER}
+      NOTIFICATION_DATABASE_PASSWORD: ${NOTIFICATION_MICROSERVICE_POSTGRES_PASSWORD}
+
     ports:
       - "${PGADMIN_PORT}:80"
 
     depends_on:
       user-service-postgres-db:
+        condition: service_healthy
+
+      notification-service-postgres-db:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.2
+    container_name: kafka-ui
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:${INTERNAL_KAFKA_PORT}
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:${ZOOKEEPER_PORT}
+      AUTH_TYPE: "LOGIN_FORM"
+      SPRING_SECURITY_USER_NAME: ${KAFKA_UI_USERNAME}
+      SPRING_SECURITY_USER_PASSWORD: ${KAFKA_UI_PASSWORD}
+
+    ports:
+      - "${KAFKA_UI_PORT}:8080"
+
+    depends_on:
+      kafka:
         condition: service_healthy
 
     networks:
