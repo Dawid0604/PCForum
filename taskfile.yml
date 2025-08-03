@@ -1,0 +1,81 @@
+version: 3
+
+tasks:
+  docker.prod.up:
+    desc: "Prod mode up"
+    cmds:
+      - >
+        docker compose -f docker/infra.yml \
+                       -f docker/dashboards.yml \
+                       -f docker/apps.yml up -d
+
+  docker.dev.up:
+    desc: "Dev mode up"
+    cmds:
+      - >
+        docker compose -f docker/infra.yml \
+                       -f docker/infra.override.yml \
+                       -f docker/dashboards.yml \
+                       -f docker/apps.yml \
+                       -f docker/apps.override.yml up
+
+  docker.prod.down:
+    desc: "Prod mode down"
+    cmds:
+      - >
+        docker compose -f docker/infra.yml \
+                       -f docker/dashboards.yml \
+                       -f docker/apps.yml down -v
+
+  docker.dev.down:
+    desc: "Dev mode down"
+    cmds:
+      - >
+        docker compose -f docker/infra.yml \
+                       -f docker/infra.override.yml \
+                       -f docker/dashboards.yml \
+                       -f docker/apps.yml \
+                       -f docker/apps.override.yml down -v
+
+  docker.infra.up:
+    desc: "Infrastructure and dashboards up"
+    cmds:
+      - >
+        docker compose -f docker/infra.yml \
+                       -f docker/infra.override.yml \
+                       -f docker/dashboards.yml up
+
+  docker.infra.down:
+    desc: "Infrastructure and dashboards down"
+    cmds:
+      - >
+        docker compose -f docker/infra.yml \
+                       -f docker/infra.override.yml \
+                       -f docker/dashboards.yml down -v
+
+  docker.image.clear:
+    desc: "Remove related images"
+    cmds:
+      - >
+        docker images -a | grep -E '^dawid0604/.+-service|dashboards-' | awk '{print $3}' | xargs -r docker rmi
+
+  docker.image.list:
+    desc: "List of related images"
+    cmds:
+      - >
+        docker images -a | grep -E '^dawid0604/.+-service|dashboards-' || true
+
+  maven.jib:
+    desc: "Generate docker images"
+    cmds:
+      - mvn clean compile jib:dockerBuild
+
+  maven.build:
+    desc: "Build without tests"
+    cmds:
+      - mvn clean verify -DskipTests
+
+  maven.test:
+    desc: "Build and test"
+    cmds:
+      - mvn clean verify
