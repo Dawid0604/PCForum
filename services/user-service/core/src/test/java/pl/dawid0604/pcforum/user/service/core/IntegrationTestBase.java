@@ -1,4 +1,4 @@
-package pl.dawid0604.pcforum.user.core;
+package pl.dawid0604.pcforum.user.service.core;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PROTECTED;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static pl.dawid0604.pcforum.user.core.IntegrationTestBase.ContainersConfig;
+import static pl.dawid0604.pcforum.user.service.core.IntegrationTestBase.ContainersConfig;
 
 /**
  * The base of all integration tests.

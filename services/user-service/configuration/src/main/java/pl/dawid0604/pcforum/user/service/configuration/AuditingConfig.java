@@ -1,4 +1,4 @@
-package pl.dawid0604.pcforum.user.configuration;
+package pl.dawid0604.pcforum.user.service.configuration;
 
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Configuration;
