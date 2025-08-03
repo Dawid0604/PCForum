@@ -4,13 +4,11 @@ services:
   config-service:
     image: dawid0604/pcforum-config-service-application
     container_name: config-service
+    restart: unless-stopped
     environment:
       - DISCOVERY_SERVICE_INSTANCE=discovery-service
       - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
       - SERVER_PORT=${CONFIG_SERVICE_PORT}
-    ports:
-      - "${CONFIG_SERVICE_PORT}:${CONFIG_SERVICE_PORT}"
-    restart: unless-stopped
 
     healthcheck:
       test: "curl --fail --silent localhost:${CONFIG_SERVICE_PORT}/actuator/health | grep UP || exit 1"
@@ -25,14 +23,12 @@ services:
   discovery-service:
     image: dawid0604/pcforum-discovery-service-application
     container_name: discovery-service
+    restart: unless-stopped
     environment:
       - CONFIG_SERVICE_INSTANCE=config-service
       - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
       - SERVER_PORT=${DISCOVERY_SERVICE_PORT}
       - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
-    ports:
-      - "${DISCOVERY_SERVICE_PORT}:${DISCOVERY_SERVICE_PORT}"
-    restart: unless-stopped
 
     depends_on:
       config-service:
@@ -70,6 +66,36 @@ services:
         condition: service_healthy
 
       user-service-postgres-db:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  notification-service:
+    image: dawid0604/pcforum-notification-service-application
+    container_name: notification-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - NOTIFICATION_MICROSERVICE_DB_HOST=notification-service-postgres-db
+      - NOTIFICATION_MICROSERVICE_POSTGRES_PORT=${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}
+      - NOTIFICATION_MICROSERVICE_POSTGRES_USER=${NOTIFICATION_MICROSERVICE_POSTGRES_USER}
+      - NOTIFICATION_MICROSERVICE_POSTGRES_PASSWORD=${NOTIFICATION_MICROSERVICE_POSTGRES_PASSWORD}
+      - NOTIFICATION_MICROSERVICE_POSTGRES_DB=${NOTIFICATION_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      notification-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
         condition: service_healthy
 
     networks:
