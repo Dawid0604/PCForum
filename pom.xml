@@ -73,6 +73,7 @@
 		<module>services/config-service</module>
 		<module>services/discovery-service</module>
 		<module>services/user-service</module>
+		<module>services/notification-service</module>
 	</modules>
 
 	<reporting>
