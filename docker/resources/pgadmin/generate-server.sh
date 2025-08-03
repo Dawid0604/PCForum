@@ -22,6 +22,16 @@ cat <<EOF > /pgadmin4/servers.json
       "Username": "${NOTIFICATION_DATABASE_USER}",
       "Password": "${NOTIFICATION_DATABASE_PASSWORD}",
       "SSLMode": "prefer"
+    },
+    "3": {
+      "Name": "${THREAD_SERVER_NAME}",
+      "Group": "Servers",
+      "Host": "${THREAD_SERVER_HOST}",
+      "Port": ${THREAD_DATABASE_PORT},
+      "MaintenanceDB": "${THREAD_DATABASE_NAME}",
+      "Username": "${THREAD_DATABASE_USER}",
+      "Password": "${THREAD_DATABASE_PASSWORD}",
+      "SSLMode": "prefer"
     }
   }
 }
