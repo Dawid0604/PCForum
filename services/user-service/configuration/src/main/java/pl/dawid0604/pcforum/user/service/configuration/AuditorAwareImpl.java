@@ -29,7 +29,7 @@ class AuditorAwareImpl implements AuditorAware<String> {
     /**
      * Returns the identifier of the current auditor (e.g., username).
      * @return empty {@link Optional}, since auditor retrieval is
-     * not yey completed.
+     * not yet completed.
      */
     @NonNull
     @Override
