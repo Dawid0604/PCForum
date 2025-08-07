@@ -30,9 +30,13 @@ jobs:
       - name: Build, test and aggregate coverage
         run: mvn clean verify
 
+      - name: List current directory recursively
+        run: ls -lR
+
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: report-aggregate/target/site/jacoco-aggregate/jacoco.xml
           fail_ci_if_error: true
+          verbose: true
