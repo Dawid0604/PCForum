@@ -29,6 +29,13 @@ services:
     networks:
       - pcforum_network
 
+  category-service-postgres-db:
+    ports:
+      - "${CATEGORY_MICROSERVICE_POSTGRES_PORT}:${CATEGORY_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
