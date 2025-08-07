@@ -32,6 +32,16 @@ cat <<EOF > /pgadmin4/servers.json
       "Username": "${THREAD_DATABASE_USER}",
       "Password": "${THREAD_DATABASE_PASSWORD}",
       "SSLMode": "prefer"
+    },
+    "4": {
+      "Name": "${POST_SERVER_NAME}",
+      "Group": "Servers",
+      "Host": "${POST_SERVER_HOST}",
+      "Port": ${POST_DATABASE_PORT},
+      "MaintenanceDB": "${POST_DATABASE_NAME}",
+      "Username": "${POST_DATABASE_USER}",
+      "Password": "${POST_DATABASE_PASSWORD}",
+      "SSLMode": "prefer"
     }
   }
 }

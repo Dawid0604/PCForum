@@ -57,13 +57,13 @@ tasks:
     desc: "Remove related images"
     cmds:
       - >
-        docker images -a | grep -E '^dawid0604/.+-service|dashboards-' | awk '{print $3}' | xargs -r docker rmi
+        docker images -a | grep -E '^dawid0604/.+-service|^dawid0604/pcforum-.+|dashboards-' | awk '{print $3}' | xargs -r docker rmi
 
   docker.image.list:
     desc: "List of related images"
     cmds:
       - >
-        docker images -a | grep -E '^dawid0604/.+-service|dashboards-' || true
+        docker images -a | grep -E '^dawid0604/.+-service|^dawid0604/pcforum-.+|dashboards-' || true
 
   maven.jib:
     desc: "Generate docker images"
