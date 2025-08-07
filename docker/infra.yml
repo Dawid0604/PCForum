@@ -4,6 +4,7 @@ volumes:
   user-service-postgres-volume:
   notification-service-postgres-volume:
   thread-service-postgres-volume:
+  post-service-postgres-volume:
 
 services:
   user-service-postgres-db:
@@ -69,6 +70,31 @@ services:
     command: "-p ${THREAD_MICROSERVICE_POSTGRES_PORT}"
     volumes:
       - thread-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  post-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: post-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${POST_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POST_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POST_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${POST_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${POST_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - post-service-postgres-volume:/var/lib/postgresql/data
 
     healthcheck:
       test: >
