@@ -31,6 +31,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/PCForum**ServiceApplication.class</exclude>
+                        <exclude>**/configuration/CloudinaryConfig.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
