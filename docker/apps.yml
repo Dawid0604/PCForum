@@ -161,6 +161,36 @@ services:
     networks:
       - pcforum_network
 
+  category-service:
+    image: dawid0604/pcforum-category-service-application
+    container_name: category-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - CATEGORY_MICROSERVICE_DB_HOST=category-service-postgres-db
+      - CATEGORY_MICROSERVICE_POSTGRES_PORT=${CATEGORY_MICROSERVICE_POSTGRES_PORT}
+      - CATEGORY_MICROSERVICE_POSTGRES_USER=${CATEGORY_MICROSERVICE_POSTGRES_USER}
+      - CATEGORY_MICROSERVICE_POSTGRES_PASSWORD=${CATEGORY_MICROSERVICE_POSTGRES_PASSWORD}
+      - CATEGORY_MICROSERVICE_POSTGRES_DB=${CATEGORY_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      category-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
