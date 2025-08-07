@@ -36,6 +36,13 @@ services:
     networks:
       - pcforum_network
 
+  message-service-postgres-db:
+    ports:
+      - "${MESSAGE_MICROSERVICE_POSTGRES_PORT}:${MESSAGE_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
