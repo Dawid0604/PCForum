@@ -188,6 +188,36 @@ services:
     networks:
       - pcforum_network
 
+  message-service:
+    image: dawid0604/pcforum-message-service-application
+    container_name: message-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - MESSAGE_MICROSERVICE_DB_HOST=message-service-postgres-db
+      - MESSAGE_MICROSERVICE_POSTGRES_PORT=${MESSAGE_MICROSERVICE_POSTGRES_PORT}
+      - MESSAGE_MICROSERVICE_POSTGRES_USER=${MESSAGE_MICROSERVICE_POSTGRES_USER}
+      - MESSAGE_MICROSERVICE_POSTGRES_PASSWORD=${MESSAGE_MICROSERVICE_POSTGRES_PASSWORD}
+      - MESSAGE_MICROSERVICE_POSTGRES_DB=${MESSAGE_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      message-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
   image-service:
     image: dawid0604/pcforum-image-service-application
     container_name: image-service
