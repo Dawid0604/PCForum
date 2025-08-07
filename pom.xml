@@ -78,7 +78,8 @@
         <module>services/post-service</module>
         <module>services/category-service</module>
 		<module>services/image-service</module>
-	</modules>
+        <module>services/message-service</module>
+    </modules>
 
 	<reporting>
 		<plugins>
