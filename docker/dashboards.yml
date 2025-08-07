@@ -3,6 +3,7 @@ name: "Dashboards"
 services:
   pgadmin:
     build: resources/pgadmin
+    image: dawid0604/pcforum-pgadmin:latest
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
@@ -29,6 +30,13 @@ services:
       THREAD_DATABASE_USER: ${THREAD_MICROSERVICE_POSTGRES_USER}
       THREAD_DATABASE_PASSWORD: ${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
 
+      POST_SERVER_NAME: Post Service
+      POST_SERVER_HOST: post-service-postgres-db
+      POST_DATABASE_NAME: ${POST_MICROSERVICE_POSTGRES_DB}
+      POST_DATABASE_PORT: ${POST_MICROSERVICE_POSTGRES_PORT}
+      POST_DATABASE_USER: ${POST_MICROSERVICE_POSTGRES_USER}
+      POST_DATABASE_PASSWORD: ${POST_MICROSERVICE_POSTGRES_PASSWORD}
+
     ports:
       - "${PGADMIN_PORT}:80"
 
@@ -37,6 +45,12 @@ services:
         condition: service_healthy
 
       notification-service-postgres-db:
+        condition: service_healthy
+
+      thread-service-postgres-db:
+        condition: service_healthy
+
+      post-service-postgres-db:
         condition: service_healthy
 
     networks:
