@@ -131,6 +131,36 @@ services:
     networks:
       - pcforum_network
 
+  post-service:
+    image: dawid0604/pcforum-post-service-application
+    container_name: post-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - POST_MICROSERVICE_DB_HOST=post-service-postgres-db
+      - POST_MICROSERVICE_POSTGRES_PORT=${POST_MICROSERVICE_POSTGRES_PORT}
+      - POST_MICROSERVICE_POSTGRES_USER=${POST_MICROSERVICE_POSTGRES_USER}
+      - POST_MICROSERVICE_POSTGRES_PASSWORD=${POST_MICROSERVICE_POSTGRES_PASSWORD}
+      - POST_MICROSERVICE_POSTGRES_DB=${POST_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      post-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
