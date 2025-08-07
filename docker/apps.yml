@@ -185,9 +185,6 @@ services:
       category-service-postgres-db:
         condition: service_healthy
 
-      kafka:
-        condition: service_healthy
-
     networks:
       - pcforum_network
 
