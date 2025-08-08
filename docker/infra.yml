@@ -8,6 +8,7 @@ volumes:
   category-service-postgres-volume:
   message-service-postgres-volume:
   reaction-service-postgres-volume:
+  moderation-service-postgres-volume:
 
 services:
   user-service-postgres-db:
@@ -173,6 +174,31 @@ services:
     command: "-p ${REACTION_MICROSERVICE_POSTGRES_PORT}"
     volumes:
       - reaction-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  moderation-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: moderation-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${MODERATION_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${MODERATION_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${MODERATION_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${MODERATION_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${MODERATION_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - moderation-service-postgres-volume:/var/lib/postgresql/data
 
     healthcheck:
       test: >
