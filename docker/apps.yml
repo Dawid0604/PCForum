@@ -218,6 +218,36 @@ services:
     networks:
       - pcforum_network
 
+  reaction-service:
+    image: dawid0604/pcforum-reaction-service-application
+    container_name: reaction-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - REACTION_MICROSERVICE_DB_HOST=reaction-service-postgres-db
+      - REACTION_MICROSERVICE_POSTGRES_PORT=${REACTION_MICROSERVICE_POSTGRES_PORT}
+      - REACTION_MICROSERVICE_POSTGRES_USER=${REACTION_MICROSERVICE_POSTGRES_USER}
+      - REACTION_MICROSERVICE_POSTGRES_PASSWORD=${REACTION_MICROSERVICE_POSTGRES_PASSWORD}
+      - REACTION_MICROSERVICE_POSTGRES_DB=${REACTION_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      reaction-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
   image-service:
     image: dawid0604/pcforum-image-service-application
     container_name: image-service
