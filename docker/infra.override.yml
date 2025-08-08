@@ -43,6 +43,13 @@ services:
     networks:
       - pcforum_network
 
+  reaction-service-postgres-db:
+    ports:
+      - "${REACTION_MICROSERVICE_POSTGRES_PORT}:${REACTION_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
