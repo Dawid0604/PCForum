@@ -17,7 +17,7 @@
 
     <modules>
         <module>application</module>
-        <module>common</module>
+        <module>commons</module>
         <module>configuration</module>
         <module>core</module>
         <module>persistence</module>
