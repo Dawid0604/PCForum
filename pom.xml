@@ -45,7 +45,7 @@
 
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<jacoco.version>0.8.13</jacoco.version>
-		<caffeine.version>3.2.1</caffeine.version>
+		<caffeine.version>3.2.2</caffeine.version>
 		<jxrPlugin.version>3.6.0</jxrPlugin.version>
 		<jib.version>3.4.6</jib.version>
 		<jdepend.version>2.1</jdepend.version>
@@ -56,15 +56,33 @@
 		<checkerframework.version>3.49.5</checkerframework.version>
 		<commons-lang3-version>3.18.0</commons-lang3-version>
 		<guava.version>33.4.8-jre</guava.version>
-		<errorProne.version>2.38.0</errorProne.version>
+		<errorProne.version>2.40.0</errorProne.version>
 		<apache.httpclient.version>4.5.14</apache.httpclient.version>
 		<hk2.api.version>3.1.1</hk2.api.version>
 		<xtream.version>1.4.21</xtream.version>
 		<apache.commons-compress.version>1.27.1</apache.commons-compress.version>
+		<pmdPlugin.version>3.27.0</pmdPlugin.version>
+		<mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
+		<checkstylePlugin.version>3.6.0</checkstylePlugin.version>
+		<rest-assured.version>5.5.5</rest-assured.version>
+		<springdoc.version>2.5.0</springdoc.version>
+		<scala.library.version>2.13.16</scala.library.version>
+		<io.commons.version>2.20.0</io.commons.version>
 	</properties>
 
 	<modules>
 		<module>report-aggregate</module>
+		<module>services/config-service</module>
+		<module>services/discovery-service</module>
+		<module>services/user-service</module>
+		<module>services/notification-service</module>
+        <module>services/thread-service</module>
+        <module>services/post-service</module>
+        <module>services/category-service</module>
+		<module>services/image-service</module>
+        <module>services/message-service</module>
+        <module>services/reaction-service</module>
+		<module>services/moderation-service</module>
 	</modules>
 
 	<reporting>
@@ -151,6 +169,31 @@
 				<artifactId>xstream</artifactId>
 				<version>${xtream.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>${rest-assured.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.scala-lang</groupId>
+				<artifactId>scala-library</artifactId>
+				<version>${scala.library.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${io.commons.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -215,7 +258,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>${checkstylePlugin.version}</version>
 
 				<configuration>
 					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
@@ -252,7 +295,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.0</version>
+				<version>${mavenCompilerPlugin.version}</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -339,7 +382,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.26.0</version>
+				<version>${pmdPlugin.version}</version>
 
 				<configuration>
 					<rulesets>

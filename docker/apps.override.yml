@@ -1,0 +1,21 @@
+name: "Microservies"
+
+services:
+  config-service:
+    ports:
+      - "${CONFIG_SERVICE_PORT}:${CONFIG_SERVICE_PORT}"
+
+    networks:
+      - pcforum_network
+
+  discovery-service:
+    ports:
+      - "${DISCOVERY_SERVICE_PORT}:${DISCOVERY_SERVICE_PORT}"
+
+    networks:
+      - pcforum_network
+
+networks:
+  pcforum_network:
+    driver: bridge
+    name: pcforum_network
