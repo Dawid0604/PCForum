@@ -79,6 +79,7 @@
         <module>services/category-service</module>
 		<module>services/image-service</module>
         <module>services/message-service</module>
+        <module>services/reaction-service</module>
     </modules>
 
 	<reporting>
