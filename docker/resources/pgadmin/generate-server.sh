@@ -72,6 +72,16 @@ cat <<EOF > /pgadmin4/servers.json
       "Username": "${REACTION_DATABASE_USER}",
       "Password": "${REACTION_DATABASE_PASSWORD}",
       "SSLMode": "prefer"
+    },
+    "8": {
+      "Name": "${MODERATION_SERVER_NAME}",
+      "Group": "Servers",
+      "Host": "${MODERATION_SERVER_HOST}",
+      "Port": ${MODERATION_DATABASE_PORT},
+      "MaintenanceDB": "${MODERATION_DATABASE_NAME}",
+      "Username": "${MODERATION_DATABASE_USER}",
+      "Password": "${MODERATION_DATABASE_PASSWORD}",
+      "SSLMode": "prefer"
     }
   }
 }

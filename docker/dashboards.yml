@@ -58,6 +58,13 @@ services:
       REACTION_DATABASE_USER: ${REACTION_MICROSERVICE_POSTGRES_USER}
       REACTION_DATABASE_PASSWORD: ${REACTION_MICROSERVICE_POSTGRES_PASSWORD}
 
+      MODERATION_SERVER_NAME: Moderation Service
+      MODERATION_SERVER_HOST: moderation-service-postgres-db
+      MODERATION_DATABASE_NAME: ${MODERATION_MICROSERVICE_POSTGRES_DB}
+      MODERATION_DATABASE_PORT: ${MODERATION_MICROSERVICE_POSTGRES_PORT}
+      MODERATION_DATABASE_USER: ${MODERATION_MICROSERVICE_POSTGRES_USER}
+      MODERATION_DATABASE_PASSWORD: ${MODERATION_MICROSERVICE_POSTGRES_PASSWORD}
+
     ports:
       - "${PGADMIN_PORT}:80"
 
@@ -78,6 +85,9 @@ services:
         condition: service_healthy
 
       reaction-service-postgres-db:
+        condition: service_healthy
+
+      moderation-service-postgres-db:
         condition: service_healthy
 
     networks:
