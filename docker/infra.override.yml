@@ -50,6 +50,13 @@ services:
     networks:
       - pcforum_network
 
+  moderation-service-postgres-db:
+    ports:
+      - "${MODERATION_MICROSERVICE_POSTGRES_PORT}:${MODERATION_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
