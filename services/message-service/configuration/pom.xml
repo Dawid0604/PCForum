@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>message-service-configuration</artifactId>
-    <name>PCForum - MessageService Configuration</name>
+    <name>PCForum - Message Service Configuration</name>
 
     <dependencies>
         <dependency>
