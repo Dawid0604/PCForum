@@ -67,6 +67,9 @@ services:
       post-service-postgres-db:
         condition: service_healthy
 
+      message-service-postgres-db:
+        condition: service_healthy
+
     networks:
       - pcforum_network
 
