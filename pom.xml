@@ -82,7 +82,8 @@
 		<module>services/image-service</module>
         <module>services/message-service</module>
         <module>services/reaction-service</module>
-    </modules>
+		<module>services/moderation-service</module>
+	</modules>
 
 	<reporting>
 		<plugins>
