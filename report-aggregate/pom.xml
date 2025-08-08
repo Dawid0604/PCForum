@@ -311,5 +311,42 @@
             <artifactId>message-service-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- REACTION SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
