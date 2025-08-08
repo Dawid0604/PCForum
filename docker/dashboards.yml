@@ -51,6 +51,13 @@ services:
       MESSAGE_DATABASE_USER: ${MESSAGE_MICROSERVICE_POSTGRES_USER}
       MESSAGE_DATABASE_PASSWORD: ${MESSAGE_MICROSERVICE_POSTGRES_PASSWORD}
 
+      REACTION_SERVER_NAME: Reaction Service
+      REACTION_SERVER_HOST: reaction-service-postgres-db
+      REACTION_DATABASE_NAME: ${REACTION_MICROSERVICE_POSTGRES_DB}
+      REACTION_DATABASE_PORT: ${REACTION_MICROSERVICE_POSTGRES_PORT}
+      REACTION_DATABASE_USER: ${REACTION_MICROSERVICE_POSTGRES_USER}
+      REACTION_DATABASE_PASSWORD: ${REACTION_MICROSERVICE_POSTGRES_PASSWORD}
+
     ports:
       - "${PGADMIN_PORT}:80"
 
@@ -68,6 +75,9 @@ services:
         condition: service_healthy
 
       message-service-postgres-db:
+        condition: service_healthy
+
+      reaction-service-postgres-db:
         condition: service_healthy
 
     networks:
