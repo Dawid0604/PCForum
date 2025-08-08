@@ -66,6 +66,8 @@
 		<checkstylePlugin.version>3.6.0</checkstylePlugin.version>
 		<rest-assured.version>5.5.5</rest-assured.version>
 		<springdoc.version>2.5.0</springdoc.version>
+		<scala.library.version>2.13.16</scala.library.version>
+		<io.commons.version>2.20.0</io.commons.version>
 	</properties>
 
 	<modules>
@@ -178,6 +180,18 @@
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 				<version>${springdoc.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.scala-lang</groupId>
+				<artifactId>scala-library</artifactId>
+				<version>${scala.library.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${io.commons.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
