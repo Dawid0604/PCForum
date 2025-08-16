@@ -385,5 +385,18 @@
             <artifactId>moderation-service-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- GATEWAY SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>gateway-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>gateway-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

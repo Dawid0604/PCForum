@@ -66,6 +66,7 @@
 		<checkstylePlugin.version>3.6.0</checkstylePlugin.version>
 		<rest-assured.version>5.5.5</rest-assured.version>
 		<springdoc.version>2.5.0</springdoc.version>
+		<springdoc.webflux.version>2.5.0</springdoc.webflux.version>
 		<scala.library.version>2.13.16</scala.library.version>
 		<io.commons.version>2.20.0</io.commons.version>
 	</properties>
@@ -83,7 +84,8 @@
         <module>services/message-service</module>
         <module>services/reaction-service</module>
 		<module>services/moderation-service</module>
-	</modules>
+		<module>services/gateway-service</module>
+    </modules>
 
 	<reporting>
 		<plugins>
@@ -180,6 +182,12 @@
 			<dependency>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 				<version>${springdoc.version}</version>
 			</dependency>
 
