@@ -1,0 +1,260 @@
+name: "Infrastructure"
+
+volumes:
+  user-service-postgres-volume:
+  notification-service-postgres-volume:
+  thread-service-postgres-volume:
+  post-service-postgres-volume:
+  category-service-postgres-volume:
+  message-service-postgres-volume:
+  reaction-service-postgres-volume:
+  moderation-service-postgres-volume:
+
+services:
+  user-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: user-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${USER_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${USER_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${USER_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${USER_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${USER_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - user-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  notification-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: notification-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${NOTIFICATION_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${NOTIFICATION_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${NOTIFICATION_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - notification-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  thread-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: thread-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${THREAD_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${THREAD_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${THREAD_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${THREAD_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - thread-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  post-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: post-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${POST_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POST_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POST_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${POST_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${POST_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - post-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  category-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: category-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${CATEGORY_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${CATEGORY_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${CATEGORY_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${CATEGORY_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${CATEGORY_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - category-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  message-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: message-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${MESSAGE_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${MESSAGE_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${MESSAGE_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${MESSAGE_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${MESSAGE_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - message-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  reaction-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: reaction-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${REACTION_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${REACTION_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${REACTION_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${REACTION_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${REACTION_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - reaction-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  moderation-service-postgres-db:
+    image: postgres:17-alpine
+    container_name: moderation-service-postgres-db
+
+    environment:
+      - POSTGRES_USER=${MODERATION_MICROSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${MODERATION_MICROSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${MODERATION_MICROSERVICE_POSTGRES_DB}
+      - PGPORT=${MODERATION_MICROSERVICE_POSTGRES_PORT}
+
+    command: "-p ${MODERATION_MICROSERVICE_POSTGRES_PORT}"
+    volumes:
+      - moderation-service-postgres-volume:/var/lib/postgresql/data
+
+    healthcheck:
+      test: >
+        bash -c "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} && 
+                 psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  zookeeper:
+    image: zookeeper:3.9.3-jre-17
+    container_name: zookeeper
+    environment:
+      - ZOOKEEPER_PORT=${ZOOKEEPER_PORT}
+
+    healthcheck:
+      test: >
+        bash -c "nc -z localhost $${ZOOKEEPER_PORT}"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - pcforum_network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.9.1
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+    healthcheck:
+      test: >
+        bash -c "nc -z localhost $${CUSTOM_KAFKA_PORT}"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    environment:
+      - CUSTOM_KAFKA_PORT=${CUSTOM_KAFKA_PORT}
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:${ZOOKEEPER_PORT}
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:${INTERNAL_KAFKA_PORT},PLAINTEXT_HOST://host.docker.internal:${CUSTOM_KAFKA_PORT}
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:${INTERNAL_KAFKA_PORT},PLAINTEXT_HOST://0.0.0.0:${CUSTOM_KAFKA_PORT}
+
+    networks:
+      - pcforum_network
+
+networks:
+  pcforum_network:
+    driver: bridge
+    name: pcforum_network

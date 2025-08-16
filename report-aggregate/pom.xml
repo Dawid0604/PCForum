@@ -31,6 +31,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/PCForum**ServiceApplication.class</exclude>
+                        <exclude>**/configuration/CloudinaryConfig.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -38,5 +39,364 @@
     </build>
 
     <dependencies>
+        <!-- CONFIG SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>config-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>config-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- DISCOVERY SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>discovery-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>discovery-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- USER SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>user-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>user-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>user-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>user-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>user-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>user-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- NOTIFICATION SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>notification-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>notification-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>notification-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>notification-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>notification-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- THREAD SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>thread-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- POST SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>post-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>post-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>post-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>post-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>post-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>post-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- CATEGORY SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>category-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>category-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>category-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>category-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>category-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>category-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- IMAGE SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>image-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>image-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>image-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>image-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>image-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- MESSAGE SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>message-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>message-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>message-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>message-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>message-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>message-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- REACTION SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>reaction-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- MODERATION SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>moderation-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>moderation-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>moderation-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>moderation-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>moderation-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>moderation-service-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- GATEWAY SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>gateway-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>gateway-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

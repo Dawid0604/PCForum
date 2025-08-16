@@ -1,0 +1,94 @@
+server:
+  port: ${GATEWAY_SERVICE_PORT}
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins: '*'
+                allowed-methods: '*'
+                allowed-headers: '*'
+                allow-credentials: false
+
+          routes:
+            - id: category-service
+              uri: lb://category-service
+              predicates:
+                - Path=/category/**
+              filters:
+                - RewritePath=/category/?(?<segment>.*), /${segment}
+
+            - id: image-service
+              uri: lb://image-service
+              predicates:
+                - Path=/image/**
+              filters:
+                - RewritePath=/image/?(?<segment>.*), /${segment}
+
+            - id: message-service
+              uri: lb://message-service
+              predicates:
+                - Path=/message/**
+              filters:
+                - RewritePath=/message/?(?<segment>.*), /${segment}
+
+            - id: moderation-service
+              uri: lb://moderation-service
+              predicates:
+                - Path=/moderation/**
+              filters:
+                - RewritePath=/moderation/?(?<segment>.*), /${segment}
+
+            - id: post-service
+              uri: lb://post-service
+              predicates:
+                - Path=/post/**
+              filters:
+                - RewritePath=/post/?(?<segment>.*), /${segment}
+
+            - id: reaction-service
+              uri: lb://reaction-service
+              predicates:
+                - Path=/reaction/**
+              filters:
+                - RewritePath=/reaction/?(?<segment>.*), /${segment}
+
+            - id: thread-service
+              uri: lb://thread-service
+              predicates:
+                - Path=/thread/**
+              filters:
+                - RewritePath=/thread/?(?<segment>.*), /${segment}
+
+            - id: user-service
+              uri: lb://user-service
+              predicates:
+                - Path=/user/**
+              filters:
+                - RewritePath=/user/?(?<segment>.*), /${segment}
+
+            - id: openapi
+              uri: http://${GATEWAY_SERVICE_INSTANCE:localhost}:${server.port}
+              predicates:
+                - Path=/v3/api-docs/**
+              filters:
+                - RewritePath=/v3/api-docs/?(?<segment>.*), /${segment}/v3/api-docs
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Methods Access-Control-Allow-Headers RETAIN_FIRST
+
+  mvc:
+    problemdetails:
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    use-root-path: true
