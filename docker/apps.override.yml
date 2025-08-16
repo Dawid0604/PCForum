@@ -15,6 +15,13 @@ services:
     networks:
       - pcforum_network
 
+  gateway-service:
+    ports:
+      - "${GATEWAY_SERVICE_PORT}:${GATEWAY_SERVICE_PORT}"
+
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
