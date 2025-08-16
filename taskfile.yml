@@ -68,7 +68,7 @@ tasks:
   maven.jib:
     desc: "Generate docker images"
     cmds:
-      - mvn clean compile jib:dockerBuild
+      - mvn clean package -DskipTests jib:dockerBuild
 
   maven.build:
     desc: "Build without tests"
