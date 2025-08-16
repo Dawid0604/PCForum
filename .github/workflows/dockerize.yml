@@ -48,7 +48,7 @@ jobs:
           DIR=$(dirname "$pom")
           MODULE=$(basename "$DIR")
           
-          mvn -pl "$pom" clean compile jib:build -am -DskipTests \
+          mvn -pl "$pom" clean package jib:build -am -DskipTests \
            -Dimage=${DOCKERHUB_USERNAME}/pcforum-${MODULE}:${TAG} \
            -Ddocker.publishRegistry.username=${DOCKERHUB_USERNAME} \
            -Ddocker.publishRegistry.password=${DOCKERHUB_TOKEN}
