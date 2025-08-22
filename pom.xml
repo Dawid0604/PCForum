@@ -50,7 +50,7 @@
 		<jib.version>3.4.6</jib.version>
 		<jdepend.version>2.1</jdepend.version>
 		<archunit.version>1.4.1</archunit.version>
-		<spotbugsPlugin.version>4.9.3.0</spotbugsPlugin.version>
+		<spotbugsPlugin.version>4.9.4.0</spotbugsPlugin.version>
 		<spotbugs.version>4.9.3</spotbugs.version>
 		<maven.enforcer.version>3.6.1</maven.enforcer.version>
 		<checkerframework.version>3.49.5</checkerframework.version>
