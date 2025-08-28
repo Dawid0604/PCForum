@@ -45,7 +45,7 @@
 
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<jacoco.version>0.8.13</jacoco.version>
-		<caffeine.version>3.2.1</caffeine.version>
+		<caffeine.version>3.2.2</caffeine.version>
 		<jxrPlugin.version>3.6.0</jxrPlugin.version>
 		<jib.version>3.4.6</jib.version>
 		<jdepend.version>2.1</jdepend.version>
@@ -56,16 +56,44 @@
 		<checkerframework.version>3.49.5</checkerframework.version>
 		<commons-lang3-version>3.18.0</commons-lang3-version>
 		<guava.version>33.4.8-jre</guava.version>
-		<errorProne.version>2.38.0</errorProne.version>
+		<errorProne.version>2.40.0</errorProne.version>
 		<apache.httpclient.version>4.5.14</apache.httpclient.version>
 		<hk2.api.version>3.1.1</hk2.api.version>
 		<xtream.version>1.4.21</xtream.version>
 		<apache.commons-compress.version>1.27.1</apache.commons-compress.version>
+		<pmdPlugin.version>3.27.0</pmdPlugin.version>
+		<mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
+		<checkstylePlugin.version>3.6.0</checkstylePlugin.version>
+		<rest-assured.version>5.5.5</rest-assured.version>
+		<springdoc.version>2.5.0</springdoc.version>
+		<springdoc.webflux.version>2.5.0</springdoc.webflux.version>
+		<scala.library.version>2.13.16</scala.library.version>
+		<io.commons.version>2.20.0</io.commons.version>
+		<javassist.version>3.30.2-GA</javassist.version>
+		<eureka.client.version>2.0.5</eureka.client.version>
+		<spring.cloud.starter.netflix.eureka.client.version>4.3.0</spring.cloud.starter.netflix.eureka.client.version>
+		<git.commit.id.maven.plugin.version>9.0.2</git.commit.id.maven.plugin.version>
+		<jsr305.version>3.0.2</jsr305.version>
+		<commons.configuration.version>1.10</commons.configuration.version>
+		<archaius-core.version>0.7.7</archaius-core.version>
 	</properties>
 
 	<modules>
 		<module>report-aggregate</module>
-	</modules>
+		<module>services/config-service</module>
+		<module>services/discovery-service</module>
+		<module>services/user-service</module>
+		<module>services/notification-service</module>
+        <module>services/thread-service</module>
+        <module>services/post-service</module>
+        <module>services/category-service</module>
+		<module>services/image-service</module>
+        <module>services/message-service</module>
+        <module>services/reaction-service</module>
+		<module>services/moderation-service</module>
+		<module>services/gateway-service</module>
+		<module>services/frontend-service</module>
+    </modules>
 
 	<reporting>
 		<plugins>
@@ -79,6 +107,48 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+				<version>${spring.cloud.starter.netflix.eureka.client.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>${jsr305.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-configuration</groupId>
+				<artifactId>commons-configuration</artifactId>
+				<version>${commons.configuration.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.netflix.archaius</groupId>
+				<artifactId>archaius-core</artifactId>
+				<version>${archaius-core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.netflix.eureka</groupId>
+				<artifactId>eureka-client</artifactId>
+				<version>${eureka.client.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-compress</artifactId>
@@ -151,6 +221,43 @@
 				<artifactId>xstream</artifactId>
 				<version>${xtream.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>${rest-assured.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.scala-lang</groupId>
+				<artifactId>scala-library</artifactId>
+				<version>${scala.library.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${io.commons.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.ben-manes.caffeine</groupId>
+				<artifactId>caffeine</artifactId>
+				<version>${caffeine.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -191,6 +298,7 @@
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<version>${git.commit.id.maven.plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -215,7 +323,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>${checkstylePlugin.version}</version>
 
 				<configuration>
 					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
@@ -252,7 +360,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.0</version>
+				<version>${mavenCompilerPlugin.version}</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -339,7 +447,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.26.0</version>
+				<version>${pmdPlugin.version}</version>
 
 				<configuration>
 					<rulesets>

@@ -1,0 +1,28 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  cloud:
+    config:
+      override-system-properties: false
+
+eureka:
+  instance:
+    hostname: ${HOSTNAME:localhost}
+  client:
+    service-url:
+      defaultZone: http://${DISCOVERY_SERVICE_INSTANCE:localhost}:${DISCOVERY_SERVICE_PORT}/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+  info:
+    git:
+      mode: full
+
+server:
+  shutdown: graceful

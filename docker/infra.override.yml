@@ -1,0 +1,63 @@
+name: "Infrastructure"
+
+services:
+  user-service-postgres-db:
+    ports:
+      - "${USER_MICROSERVICE_POSTGRES_PORT}:${USER_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  notification-service-postgres-db:
+    ports:
+      - "${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}:${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  thread-service-postgres-db:
+    ports:
+      - "${THREAD_MICROSERVICE_POSTGRES_PORT}:${THREAD_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  post-service-postgres-db:
+    ports:
+      - "${POST_MICROSERVICE_POSTGRES_PORT}:${POST_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  category-service-postgres-db:
+    ports:
+      - "${CATEGORY_MICROSERVICE_POSTGRES_PORT}:${CATEGORY_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  message-service-postgres-db:
+    ports:
+      - "${MESSAGE_MICROSERVICE_POSTGRES_PORT}:${MESSAGE_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  reaction-service-postgres-db:
+    ports:
+      - "${REACTION_MICROSERVICE_POSTGRES_PORT}:${REACTION_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+  moderation-service-postgres-db:
+    ports:
+      - "${MODERATION_MICROSERVICE_POSTGRES_PORT}:${MODERATION_MICROSERVICE_POSTGRES_PORT}"
+
+    networks:
+      - pcforum_network
+
+networks:
+  pcforum_network:
+    driver: bridge
+    name: pcforum_network

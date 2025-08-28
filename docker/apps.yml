@@ -1,0 +1,345 @@
+name: "Microservies"
+
+services:
+  config-service:
+    image: dawid0604/pcforum-config-service-application
+    container_name: config-service
+    restart: unless-stopped
+    environment:
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - SERVER_PORT=${CONFIG_SERVICE_PORT}
+
+    healthcheck:
+      test: "curl --fail --silent localhost:${CONFIG_SERVICE_PORT}/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+    networks:
+      - pcforum_network
+
+  discovery-service:
+    image: dawid0604/pcforum-discovery-service-application
+    container_name: discovery-service
+    restart: unless-stopped
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - SERVER_PORT=${DISCOVERY_SERVICE_PORT}
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+    healthcheck:
+      test: "curl --fail --silent localhost:${DISCOVERY_SERVICE_PORT}/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+    networks:
+      - pcforum_network
+
+  user-service:
+    image: dawid0604/pcforum-user-service-application
+    container_name: user-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - USER_MICROSERVICE_DB_HOST=user-service-postgres-db
+      - USER_MICROSERVICE_POSTGRES_PORT=${USER_MICROSERVICE_POSTGRES_PORT}
+      - USER_MICROSERVICE_POSTGRES_USER=${USER_MICROSERVICE_POSTGRES_USER}
+      - USER_MICROSERVICE_POSTGRES_PASSWORD=${USER_MICROSERVICE_POSTGRES_PASSWORD}
+      - USER_MICROSERVICE_POSTGRES_DB=${USER_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      user-service-postgres-db:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  notification-service:
+    image: dawid0604/pcforum-notification-service-application
+    container_name: notification-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - NOTIFICATION_MICROSERVICE_DB_HOST=notification-service-postgres-db
+      - NOTIFICATION_MICROSERVICE_POSTGRES_PORT=${NOTIFICATION_MICROSERVICE_POSTGRES_PORT}
+      - NOTIFICATION_MICROSERVICE_POSTGRES_USER=${NOTIFICATION_MICROSERVICE_POSTGRES_USER}
+      - NOTIFICATION_MICROSERVICE_POSTGRES_PASSWORD=${NOTIFICATION_MICROSERVICE_POSTGRES_PASSWORD}
+      - NOTIFICATION_MICROSERVICE_POSTGRES_DB=${NOTIFICATION_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      notification-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  thread-service:
+    image: dawid0604/pcforum-thread-service-application
+    container_name: thread-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - THREAD_MICROSERVICE_DB_HOST=thread-service-postgres-db
+      - THREAD_MICROSERVICE_POSTGRES_PORT=${THREAD_MICROSERVICE_POSTGRES_PORT}
+      - THREAD_MICROSERVICE_POSTGRES_USER=${THREAD_MICROSERVICE_POSTGRES_USER}
+      - THREAD_MICROSERVICE_POSTGRES_PASSWORD=${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
+      - THREAD_MICROSERVICE_POSTGRES_DB=${THREAD_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      thread-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  post-service:
+    image: dawid0604/pcforum-post-service-application
+    container_name: post-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - POST_MICROSERVICE_DB_HOST=post-service-postgres-db
+      - POST_MICROSERVICE_POSTGRES_PORT=${POST_MICROSERVICE_POSTGRES_PORT}
+      - POST_MICROSERVICE_POSTGRES_USER=${POST_MICROSERVICE_POSTGRES_USER}
+      - POST_MICROSERVICE_POSTGRES_PASSWORD=${POST_MICROSERVICE_POSTGRES_PASSWORD}
+      - POST_MICROSERVICE_POSTGRES_DB=${POST_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      post-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  category-service:
+    image: dawid0604/pcforum-category-service-application
+    container_name: category-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - CATEGORY_MICROSERVICE_DB_HOST=category-service-postgres-db
+      - CATEGORY_MICROSERVICE_POSTGRES_PORT=${CATEGORY_MICROSERVICE_POSTGRES_PORT}
+      - CATEGORY_MICROSERVICE_POSTGRES_USER=${CATEGORY_MICROSERVICE_POSTGRES_USER}
+      - CATEGORY_MICROSERVICE_POSTGRES_PASSWORD=${CATEGORY_MICROSERVICE_POSTGRES_PASSWORD}
+      - CATEGORY_MICROSERVICE_POSTGRES_DB=${CATEGORY_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      category-service-postgres-db:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  message-service:
+    image: dawid0604/pcforum-message-service-application
+    container_name: message-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - MESSAGE_MICROSERVICE_DB_HOST=message-service-postgres-db
+      - MESSAGE_MICROSERVICE_POSTGRES_PORT=${MESSAGE_MICROSERVICE_POSTGRES_PORT}
+      - MESSAGE_MICROSERVICE_POSTGRES_USER=${MESSAGE_MICROSERVICE_POSTGRES_USER}
+      - MESSAGE_MICROSERVICE_POSTGRES_PASSWORD=${MESSAGE_MICROSERVICE_POSTGRES_PASSWORD}
+      - MESSAGE_MICROSERVICE_POSTGRES_DB=${MESSAGE_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      message-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  reaction-service:
+    image: dawid0604/pcforum-reaction-service-application
+    container_name: reaction-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - REACTION_MICROSERVICE_DB_HOST=reaction-service-postgres-db
+      - REACTION_MICROSERVICE_POSTGRES_PORT=${REACTION_MICROSERVICE_POSTGRES_PORT}
+      - REACTION_MICROSERVICE_POSTGRES_USER=${REACTION_MICROSERVICE_POSTGRES_USER}
+      - REACTION_MICROSERVICE_POSTGRES_PASSWORD=${REACTION_MICROSERVICE_POSTGRES_PASSWORD}
+      - REACTION_MICROSERVICE_POSTGRES_DB=${REACTION_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      reaction-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  moderation-service:
+    image: dawid0604/pcforum-moderation-service-application
+    container_name: moderation-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - MODERATION_MICROSERVICE_DB_HOST=moderation-service-postgres-db
+      - MODERATION_MICROSERVICE_POSTGRES_PORT=${MODERATION_MICROSERVICE_POSTGRES_PORT}
+      - MODERATION_MICROSERVICE_POSTGRES_USER=${MODERATION_MICROSERVICE_POSTGRES_USER}
+      - MODERATION_MICROSERVICE_POSTGRES_PASSWORD=${MODERATION_MICROSERVICE_POSTGRES_PASSWORD}
+      - MODERATION_MICROSERVICE_POSTGRES_DB=${MODERATION_MICROSERVICE_POSTGRES_DB}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+      moderation-service-postgres-db:
+        condition: service_healthy
+
+      kafka:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  image-service:
+    image: dawid0604/pcforum-image-service-application
+    container_name: image-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  gateway-service:
+    image: dawid0604/pcforum-gateway-service-application
+    container_name: gateway-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - GATEWAY_SERVICE_PORT=${GATEWAY_SERVICE_PORT}
+      - GATEWAY_SERVICE_INSTANCE=gateway-service
+      - FRONTEND_SERVICE_INSTANCE=frontend-service
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  frontend-service:
+    image: dawid0604/pcforum-frontend-service-application
+    container_name: frontend-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - FRONTEND_SERVICE_PORT=${FRONTEND_SERVICE_PORT}
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+networks:
+  pcforum_network:
+    driver: bridge
+    name: pcforum_network
