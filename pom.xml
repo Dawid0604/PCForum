@@ -69,6 +69,10 @@
 		<springdoc.webflux.version>2.5.0</springdoc.webflux.version>
 		<scala.library.version>2.13.16</scala.library.version>
 		<io.commons.version>2.20.0</io.commons.version>
+		<javassist.version>3.30.2-GA</javassist.version>
+		<eureka.client.version>2.0.5</eureka.client.version>
+		<spring.cloud.starter.netflix.eureka.client.version>4.3.0</spring.cloud.starter.netflix.eureka.client.version>
+		<git.commit.id.maven.plugin.version>9.0.2</git.commit.id.maven.plugin.version>
 	</properties>
 
 	<modules>
@@ -100,6 +104,48 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+				<version>${spring.cloud.starter.netflix.eureka.client.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>3.0.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-configuration</groupId>
+				<artifactId>commons-configuration</artifactId>
+				<version>1.10</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.netflix.archaius</groupId>
+				<artifactId>archaius-core</artifactId>
+				<version>0.7.7</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.netflix.eureka</groupId>
+				<artifactId>eureka-client</artifactId>
+				<version>${eureka.client.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-compress</artifactId>
@@ -203,6 +249,12 @@
 				<artifactId>commons-io</artifactId>
 				<version>${io.commons.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>com.github.ben-manes.caffeine</groupId>
+				<artifactId>caffeine</artifactId>
+				<version>${caffeine.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -243,6 +295,7 @@
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<version>${git.commit.id.maven.plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
