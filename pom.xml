@@ -85,6 +85,7 @@
         <module>services/reaction-service</module>
 		<module>services/moderation-service</module>
 		<module>services/gateway-service</module>
+		<module>services/frontend-service</module>
     </modules>
 
 	<reporting>

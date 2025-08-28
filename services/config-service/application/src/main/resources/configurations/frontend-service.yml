@@ -1,0 +1,2 @@
+server:
+  port: ${FRONTEND_SERVICE_PORT}
