@@ -13,9 +13,20 @@ spring:
           globalcors:
             cors-configurations:
               '[/**]':
-                allowed-origins: '*'
-                allowed-methods: '*'
-                allowed-headers: '*'
+                allowed-origins:
+                  - http://${FRONTEND_SERVICE_INSTANCE:localhost}:${FRONTEND_SERVICE_PORT}
+                allowed-methods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - PATCH
+                  - OPTIONS
+                allowed-headers:
+                  - Authorization
+                  - Content-Type
+                  - X-Forwarded-For
+                  - X-Forwarded-Proto
                 allow-credentials: false
 
           routes:
