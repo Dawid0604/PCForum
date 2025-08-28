@@ -398,5 +398,36 @@
             <artifactId>gateway-service-application</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- FRONTEND SERVICE MODULES -->
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>frontend-service-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>frontend-service-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>frontend-service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>frontend-service-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.dawid0604</groupId>
+            <artifactId>frontend-service-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
