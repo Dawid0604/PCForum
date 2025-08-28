@@ -114,6 +114,23 @@ services:
     networks:
       - pcforum_network
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.2
+    command:
+      - "start-dev"
+      - "--import-realm"
+      - "--http-port=${KEYCLOAK_PORT}"
+    environment:
+      - KEYCLOAK_PORT=${KEYCLOAK_PORT}
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+    volumes:
+      - ./resources/keycloak:/opt/keycloak/data/import:ro,Z
+    ports:
+      - "${KEYCLOAK_PORT}:${KEYCLOAK_PORT}"
+    networks:
+      - pcforum_network
+
 networks:
   pcforum_network:
     driver: bridge
