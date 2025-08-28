@@ -297,7 +297,6 @@ services:
     networks:
       - pcforum_network
 
-
   gateway-service:
     image: dawid0604/pcforum-gateway-service-application
     container_name: gateway-service
@@ -308,6 +307,27 @@ services:
       - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
       - GATEWAY_SERVICE_PORT=${GATEWAY_SERVICE_PORT}
       - GATEWAY_SERVICE_INSTANCE=gateway-service
+      - FRONTEND_SERVICE_INSTANCE=frontend-service
+    restart: unless-stopped
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+      discovery-service:
+        condition: service_healthy
+
+    networks:
+      - pcforum_network
+
+  frontend-service:
+    image: dawid0604/pcforum-frontend-service-application
+    container_name: frontend-service
+    environment:
+      - CONFIG_SERVICE_INSTANCE=config-service
+      - CONFIG_SERVICE_PORT=${CONFIG_SERVICE_PORT}
+      - DISCOVERY_SERVICE_INSTANCE=discovery-service
+      - DISCOVERY_SERVICE_PORT=${DISCOVERY_SERVICE_PORT}
+      - FRONTEND_SERVICE_PORT=${FRONTEND_SERVICE_PORT}
     restart: unless-stopped
     depends_on:
       config-service:
