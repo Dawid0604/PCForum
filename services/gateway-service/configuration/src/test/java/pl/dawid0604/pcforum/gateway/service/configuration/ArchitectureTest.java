@@ -80,7 +80,7 @@ class ArchitectureTest {
         }
 
         @Test
-        @DisplayName("Config classes should be annotated with @Service")
+        @DisplayName("Config classes should be annotated with @Configuration")
         void configurationClassesShouldBeProperAnnotated() {
             // Given
             // When
