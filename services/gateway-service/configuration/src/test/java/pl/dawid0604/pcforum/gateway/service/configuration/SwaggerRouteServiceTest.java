@@ -61,7 +61,7 @@ class SwaggerRouteServiceTest {
 
                 // Then
                 Assertions.assertThat(result)
-                        .hasSize(2)
+                          .hasSize(2)
                         .extracting(RouteDefinition::getId)
                         .containsOnly("user-service", "order-service");
             }
