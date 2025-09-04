@@ -77,7 +77,7 @@
 		<commons.configuration.version>1.10</commons.configuration.version>
 		<archaius-core.version>0.7.7</archaius-core.version>
 		<tomcat-embed-core.version>10.1.44</tomcat-embed-core.version>
-		<netty.version>4.1.124.Final</netty.version>
+		<netty.version>4.2.5.Final</netty.version>
 		<postgresql.version>42.7.7</postgresql.version>
 	</properties>
 
