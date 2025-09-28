@@ -64,7 +64,6 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>${jib.version}</version>
             </plugin>
-
         </plugins>
     </build>
 </project>

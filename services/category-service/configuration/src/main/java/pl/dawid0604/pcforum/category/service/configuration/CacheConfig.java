@@ -1,9 +1,14 @@
 package pl.dawid0604.pcforum.category.service.configuration;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.NoArgsConstructor;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.dawid0604.pcforum.category.service.commons.Constants;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static lombok.AccessLevel.PACKAGE;
 
 /**
@@ -21,4 +26,33 @@ import static lombok.AccessLevel.PACKAGE;
 @Configuration
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = PACKAGE)
-class CacheConfig { }
+class CacheConfig {
+
+    /**
+     * Maximum number of entities kept in cache.
+     */
+    private static final int MAX_SIZE = 500;
+
+    /**
+     * TTL for each entry in minutes.
+     */
+    private static final int WRITE_TTL = 30;
+
+    /**
+     * Creates and configures the {@link CaffeineCacheManager} used by Spring.
+     * @return configures cache manager ready for use.
+     */
+    @Bean
+    public CaffeineCacheManager caffeineCacheManager() {
+        final Caffeine<Object, Object> caffeine = Caffeine.newBuilder()
+                                                          .recordStats()
+                                                          .maximumSize(MAX_SIZE)
+                                                          .expireAfterWrite(WRITE_TTL, MINUTES);
+
+        final CaffeineCacheManager cacheManager = new CaffeineCacheManager(Constants.CACHE_KEY);
+                                   cacheManager.setCaffeine(caffeine);
+                                   cacheManager.setAsyncCacheMode(true);
+
+        return cacheManager;
+    }
+}

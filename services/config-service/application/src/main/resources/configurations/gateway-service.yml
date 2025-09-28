@@ -3,9 +3,32 @@ server:
 
 spring:
   cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+        avoid-previous-instance: true
+
+      clients:
+        category-service:
+          retry:
+            max-retries-on-same-service-instance: 2
+            max-retries-on-next-service-instance: 1
+            retryable-exceptions:
+              - java.net.ConnectException
+              - java.io.IOException
+              - java.util.concurrent.TimeoutException
+            retry-on-all-exceptions: true
+            backoff:
+              min-backoff-duration: 5s
+              max-backoff-duration: 10s
+
     gateway:
       server:
         webflux:
+          httpclient:
+            connect-timeout: 5000
+            response-timeout: 65s
+
           discovery:
             locator:
               enabled: true
@@ -36,6 +59,31 @@ spring:
                 - Path=/category/**
               filters:
                 - RewritePath=/category/?(?<segment>.*), /${segment}
+                - name: Retry
+                  args:
+                    retries: 3
+                    statuses:
+                      - BAD_GATEWAY
+                      - SERVICE_UNAVAILABLE
+                      - GATEWAY_TIMEOUT
+                    methods:
+                      - GET
+                      - POST
+                      - PUT
+                      - DELETE
+                      - PATCH
+                    exceptions:
+                      - java.io.IOException
+                      - java.util.concurrent.TimeoutException
+                      - java.net.ConnectException
+                      - io.netty.channel.AbstractChannel$AnnotatedConnectException
+                      - org.springframework.cloud.gateway.support.NotFoundException
+                    backoff:
+                      firstBackoff: 5s
+                      maxBackoff: 15s
+                      factor: 2
+                      basedOnPreviousValue: true
+                    timeout: 55s
 
             - id: image-service
               uri: lb://image-service

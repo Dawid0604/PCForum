@@ -45,7 +45,7 @@ class SwaggerConfig {
     /**
      * Interval between refresh cycles.
      */
-    private static final int REFRESH_TIMEOUT = 30_000;
+    private static final int REFRESH_TIMEOUT = 15_000;
 
     /**
      * Scheduled task that refreshes Swagger UI URL's
