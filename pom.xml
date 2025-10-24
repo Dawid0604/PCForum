@@ -84,6 +84,8 @@
 		<jnanoid.version>2.0.0</jnanoid.version>
 		<tomcat-annotations.version>10.1.44</tomcat-annotations.version>
 		<datafaker.version>2.4.4</datafaker.version>
+		<bucket4j-core.version>8.0.1</bucket4j-core.version>
+		<testcontainers-keycloak.version>3.8.0</testcontainers-keycloak.version>
 	</properties>
 
 	<modules>
@@ -115,6 +117,18 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.github.vladimir-bukhtoyarov</groupId>
+				<artifactId>bucket4j-core</artifactId>
+				<version>${bucket4j-core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.dasniko</groupId>
+				<artifactId>testcontainers-keycloak</artifactId>
+				<version>${testcontainers-keycloak.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>net.datafaker</groupId>
 				<artifactId>datafaker</artifactId>

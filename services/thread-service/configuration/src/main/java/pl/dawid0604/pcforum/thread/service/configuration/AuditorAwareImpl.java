@@ -1,8 +1,13 @@
 package pl.dawid0604.pcforum.thread.service.configuration;
 
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -17,23 +22,36 @@ import static lombok.AccessLevel.PACKAGE;
  *     The current implementation returns empty response {@link Optional},
  *     which means that information about the auditor is unavailable.
  * </p>
- *
- * <b>This component is prepared for further development</b>
  * @see AuditorAware
  */
 @Component("auditorAwareImpl")
 @NoArgsConstructor(access = PACKAGE)
-@SuppressWarnings("PMD.CommentSize")
 class AuditorAwareImpl implements AuditorAware<String> {
 
     /**
      * Returns the identifier of the current auditor (e.g., username).
-     * @return empty {@link Optional}, since auditor retrieval is
-     * not yet completed.
+     * @return {@link Optional} containing username from the JWT token or
+     * authentication principal.
+     * @see JwtAuthenticationToken
+     * @see Authentication
      */
     @NonNull
     @Override
+    @SuppressWarnings("PMD.OnlyOneReturn")
     public Optional<String> getCurrentAuditor() {
-        return Optional.empty();
+        final Authentication authentication = SecurityContextHolder.getContext()
+                                                                   .getAuthentication();
+
+        if (authentication instanceof JwtAuthenticationToken jwtToken) {
+            return Optional.ofNullable(jwtToken.getToken())
+                           .map(t -> t.getClaimAsString("preferred_username"))
+                           .filter(StringUtils::isNotBlank);
+        }
+
+        return Optional.ofNullable(authentication)
+                       .map(Authentication::getPrincipal)
+                       .filter(String.class::isInstance)
+                       .map(String.class::cast)
+                       .filter(a -> !Strings.CI.contains(a, "anonymous"));
     }
 }

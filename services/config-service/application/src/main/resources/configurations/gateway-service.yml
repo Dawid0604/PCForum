@@ -8,20 +8,6 @@ spring:
         enabled: true
         avoid-previous-instance: true
 
-      clients:
-        category-service:
-          retry:
-            max-retries-on-same-service-instance: 2
-            max-retries-on-next-service-instance: 1
-            retryable-exceptions:
-              - java.net.ConnectException
-              - java.io.IOException
-              - java.util.concurrent.TimeoutException
-            retry-on-all-exceptions: true
-            backoff:
-              min-backoff-duration: 5s
-              max-backoff-duration: 10s
-
     gateway:
       server:
         webflux:
@@ -61,23 +47,16 @@ spring:
                 - RewritePath=/category/?(?<segment>.*), /${segment}
                 - name: Retry
                   args:
-                    retries: 3
+                    retries: 2
                     statuses:
                       - BAD_GATEWAY
                       - SERVICE_UNAVAILABLE
                       - GATEWAY_TIMEOUT
                     methods:
                       - GET
-                      - POST
-                      - PUT
-                      - DELETE
-                      - PATCH
                     exceptions:
-                      - java.io.IOException
-                      - java.util.concurrent.TimeoutException
                       - java.net.ConnectException
                       - io.netty.channel.AbstractChannel$AnnotatedConnectException
-                      - org.springframework.cloud.gateway.support.NotFoundException
                     backoff:
                       firstBackoff: 5s
                       maxBackoff: 15s
@@ -126,6 +105,24 @@ spring:
                 - Path=/thread/**
               filters:
                 - RewritePath=/thread/?(?<segment>.*), /${segment}
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses:
+                      - BAD_GATEWAY
+                      - SERVICE_UNAVAILABLE
+                      - GATEWAY_TIMEOUT
+                    methods:
+                      - GET
+                    exceptions:
+                      - java.net.ConnectException
+                      - io.netty.channel.AbstractChannel$AnnotatedConnectException
+                    backoff:
+                      firstBackoff: 200ms
+                      maxBackoff: 1s
+                      factor: 2
+                      basedOnPreviousValue: true
+                    timeout: 5s
 
             - id: user-service
               uri: lb://user-service
