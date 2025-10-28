@@ -77,6 +77,17 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>pl/dawid0604/pcforum/thread/service/commons/exception/*.class</exclude>
+                        <exclude>pl/dawid0604/pcforum/thread/service/commons/dto/*.class</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
