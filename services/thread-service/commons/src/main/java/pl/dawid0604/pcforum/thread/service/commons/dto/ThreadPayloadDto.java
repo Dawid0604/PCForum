@@ -8,45 +8,45 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import pl.dawid0604.pcforum.thread.service.commons.Constants;
 import pl.dawid0604.pcforum.thread.service.commons.annotation.ValidContent;
-import pl.dawid0604.pcforum.thread.service.commons.json.DtoViews;
+import pl.dawid0604.pcforum.thread.service.commons.view.PayloadDtoView;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
-@Schema(description = "DTO representing Thread")
-public record ThreadEntityDto(
+@Schema(description = "DTO representing Thread payload")
+public record ThreadPayloadDto(
 
         @ValidContent(fieldName = "Title")
         @NotNull(message = Constants.TITLE_NOT_NULL_MESSAGE)
         @NotBlank(message = Constants.TITLE_NOT_BLANK_MESSAGE)
         @Size(
-                min = Constants.TITLE_MIN_SIZE,
-                max = Constants.TITLE_MAX_SIZE,
+                min = Constants.TITLE_MIN_LENGTH,
+                max = Constants.TITLE_MAX_LENGTH,
                 message = Constants.TITLE_SIZE_MESSAGE
         )
         @Schema(
                 description = Constants.TITLE_SCHEMA_DESCRIPTION,
                 example = Constants.TITLE_SCHEMA_EXAMPLE,
                 requiredMode = REQUIRED,
-                minLength = Constants.TITLE_MIN_SIZE,
-                maxLength = Constants.TITLE_MAX_SIZE
+                minLength = Constants.TITLE_MIN_LENGTH,
+                maxLength = Constants.TITLE_MAX_LENGTH
         )
-        @JsonView(DtoViews.Common.class)
+        @JsonView(PayloadDtoView.Common.class)
         String title,
 
         @ValidContent(fieldName = "Content")
         @NotNull(message = Constants.CONTENT_NOT_NULL_MESSAGE)
         @NotBlank(message = Constants.CONTENT_NOT_BLANK_MESSAGE)
         @Size(
-                min = Constants.CONTENT_MIN_SIZE,
+                min = Constants.CONTENT_MIN_LENGTH,
                 message = Constants.CONTENT_SIZE_MESSAGE
         )
         @Schema(
                 description = Constants.CONTENT_SCHEMA_DESCRIPTION,
                 example = Constants.CONTENT_SCHEMA_EXAMPLE,
                 requiredMode = REQUIRED,
-                minLength = Constants.CONTENT_MIN_SIZE
+                minLength = Constants.CONTENT_MIN_LENGTH
         )
-        @JsonView(DtoViews.Common.class)
+        @JsonView(PayloadDtoView.Common.class)
         String content,
 
         @Pattern(
@@ -59,7 +59,7 @@ public record ThreadEntityDto(
                 pattern = Constants.NANO_ID_REGEXP,
                 requiredMode = REQUIRED
         )
-        @JsonView(DtoViews.Creation.class)
+        @JsonView(PayloadDtoView.Creation.class)
         String categoryId,
 
         @Pattern(
@@ -72,5 +72,5 @@ public record ThreadEntityDto(
                 pattern = Constants.NANO_ID_REGEXP,
                 requiredMode = REQUIRED
         )
-        @JsonView(DtoViews.Edit.class)
+        @JsonView(PayloadDtoView.Edit.class)
         String publicId) { }

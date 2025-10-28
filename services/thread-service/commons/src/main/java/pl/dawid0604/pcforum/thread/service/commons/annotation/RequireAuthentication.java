@@ -9,6 +9,14 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * <p>
+ *     Annotation to require authenticated user state.
+ *     When condition is not met then
+ *     {@link org.springframework.security.authorization.AuthorizationDeniedException}
+ *     exception is thrown.
+ * </p>
+ */
 @Documented
 @Target(METHOD)
 @Retention(RUNTIME)
