@@ -4,3 +4,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/dawid0604/PCForum)
 [![Build](https://github.com/Dawid0604/PCForum/actions/workflows/build.yml/badge.svg)](https://github.com/Dawid0604/PCForum/actions/workflows/build.yml)
 [![Automatic Dependency Submission](https://github.com/Dawid0604/PCForum/actions/workflows/dependency-graph/auto-submission/badge.svg)](https://github.com/Dawid0604/PCForum/actions/workflows/dependency-graph/auto-submission)
+
+
+> ⚠️ **Aktywny development odbywa się na branchu [`beta`](https://github.com/Dawid0604/PCForum/tree/beta-m-1.0/29).**
+> `main` jest zarezerwowany dla finalnego MVP
