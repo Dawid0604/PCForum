@@ -10,7 +10,11 @@ spring:
 eureka:
   instance:
     hostname: ${HOSTNAME:localhost}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
   client:
+    registry-fetch-interval-seconds: 10
     service-url:
       defaultZone: http://${DISCOVERY_SERVICE_INSTANCE:localhost}:${DISCOVERY_SERVICE_PORT}/eureka
 

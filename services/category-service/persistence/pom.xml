@@ -34,6 +34,12 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- JNanoId -->
+        <dependency>
+            <groupId>com.aventrix.jnanoid</groupId>
+            <artifactId>jnanoid</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,6 +51,16 @@
 
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>pl/dawid0604/pcforum/category/service/persistence/**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

@@ -3,9 +3,18 @@ server:
 
 spring:
   cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+        avoid-previous-instance: true
+
     gateway:
       server:
         webflux:
+          httpclient:
+            connect-timeout: 5000
+            response-timeout: 65s
+
           discovery:
             locator:
               enabled: true
@@ -36,6 +45,24 @@ spring:
                 - Path=/category/**
               filters:
                 - RewritePath=/category/?(?<segment>.*), /${segment}
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses:
+                      - BAD_GATEWAY
+                      - SERVICE_UNAVAILABLE
+                      - GATEWAY_TIMEOUT
+                    methods:
+                      - GET
+                    exceptions:
+                      - java.net.ConnectException
+                      - io.netty.channel.AbstractChannel$AnnotatedConnectException
+                    backoff:
+                      firstBackoff: 5s
+                      maxBackoff: 15s
+                      factor: 2
+                      basedOnPreviousValue: true
+                    timeout: 55s
 
             - id: image-service
               uri: lb://image-service
@@ -78,6 +105,24 @@ spring:
                 - Path=/thread/**
               filters:
                 - RewritePath=/thread/?(?<segment>.*), /${segment}
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses:
+                      - BAD_GATEWAY
+                      - SERVICE_UNAVAILABLE
+                      - GATEWAY_TIMEOUT
+                    methods:
+                      - GET
+                    exceptions:
+                      - java.net.ConnectException
+                      - io.netty.channel.AbstractChannel$AnnotatedConnectException
+                    backoff:
+                      firstBackoff: 200ms
+                      maxBackoff: 1s
+                      factor: 2
+                      basedOnPreviousValue: true
+                    timeout: 5s
 
             - id: user-service
               uri: lb://user-service

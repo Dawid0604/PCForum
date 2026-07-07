@@ -2,6 +2,9 @@ eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
+  server:
+    response-cache-update-interval-ms: 10000
+    eviction-interval-timer-in-ms: 10000
 
 server:
   port: ${DISCOVERY_SERVICE_PORT}

@@ -1,0 +1,33 @@
+{
+  "realm": "test-realm",
+  "enabled": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": true,
+  "clients": [
+    {
+      "clientId": "test-client",
+      "secret": "test-secret",
+      "enabled": true,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "redirectUris": ["http://localhost:*"],
+      "webOrigins": ["http://localhost:*"],
+      "attributes": {
+        "access.token.lifespan": "300"
+      }
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "User role"
+      }
+    ]
+  }
+}

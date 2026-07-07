@@ -31,7 +31,11 @@
                 <configuration>
                     <excludes>
                         <exclude>**/PCForum**ServiceApplication.class</exclude>
-                        <exclude>**/configuration/CloudinaryConfig.class</exclude>
+                        <exclude>pl/dawid0604/pcforum/image/configuration/CloudinaryConfig.class</exclude>
+                        <exclude>pl/dawid0604/pcforum/category/service/configuration/SwaggerConfig.class</exclude>
+                        <exclude>pl/dawid0604/pcforum/category/service/configuration/security/SecurityConfig.class</exclude>
+                        <exclude>pl/dawid0604/pcforum/category/service/commons/dto/**.class</exclude>
+                        <exclude>pl/dawid0604/pcforum/category/service/persistence/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>

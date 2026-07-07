@@ -5,9 +5,9 @@ spring:
     password: ${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
 
     hikari:
-      maximum-pool-size: 10
-      minimum-idle: 6
-      connection-timeout: 30000
+      maximum-pool-size: 12
+      minimum-idle: 4
+      connection-timeout: 2000
       idle-timeout: 600000
       max-lifetime: 1800000
       leak-detection-threshold: 3000
@@ -22,27 +22,130 @@ spring:
         useServerPrepStms: true
 
   flyway:
-    schemas: ${THREAD_MICROSERVICE_POSTGRES_DB}
     user: ${THREAD_MICROSERVICE_POSTGRES_USER}
     password: ${THREAD_MICROSERVICE_POSTGRES_PASSWORD}
     url: jdbc:postgresql://${THREAD_MICROSERVICE_DB_HOST:localhost}:${THREAD_MICROSERVICE_POSTGRES_PORT}/${THREAD_MICROSERVICE_POSTGRES_DB}
+    locations: classpath:migrations
 
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate.query.timeout: 2500
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt.issuer-uri: http://${KEYCLOAK_INSTANCE:localhost}:${KEYCLOAK_PORT}/realms/pcforum
 
   kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    listener:
+      ack-mode: MANUAL_IMMEDIATE
+      concurrency: 3
+
     consumer:
-      bootstrap-servers: ${KAFKA_SERVER}
       group-id: thread-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        #        spring.json.trusted.packages: '*'
-        spring.kafka.consumer.enable-aut-commit: false
+        spring.kafka.consumer.enable-auto-commit: false
         spring.kafka.listener.ack-mode: MANUAL_IMMEDIATE
+        enable.auto.commit: false
+        session.timeout.ms: 30000
+        heartbeat.interval.ms: 3000
+        max.poll.interval.ms: 300000
+        max.poll.records: 500
+        spring.json.trusted.packages: "pl.dawid0604.pcforum.thread.service.core"
+        fetch.min.bytes: 1
+        fetch.max.wait.ms: 500
 
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 10
+      properties:
+        enable.idempotence: true
+        compression.type: snappy
+        batch.size: 16384
+        linger.ms: 10
+        buffer.memory: 33554432
+        max.in.flight.requests.per.connection: 5
+        request.timeout.ms: 30000
+        delivery.timeout.ms: 120000
+        max.block.ms: 60000
+        retry.backoff.ms: 100
+        retry.backoff.max.ms: 1000
+        reconnect.backoff.ms: 50
+        reconnect.backoff.max.ms: 1000
 server:
   port: 0
+  tomcat.threads.virtual.enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      thread-service:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 20
+        failureRateThreshold: 50
+        slowCallRateThreshold: 60
+        slowCallDurationThreshold: 2s
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+        recordExceptions:
+          - java.sql.SQLTransientConnectionException
+          - java.sql.SQLTimeoutException
+          - org.springframework.dao.QueryTimeoutException
+          - org.springframework.dao.TransientDataAccessResourceException
+
+  timelimiter:
+    instances:
+      thread-service-fast:
+        timeout-duration: 3s
+        cancel-running-future: true
+
+      thread-service-moderate:
+        timeout-duration: 5s
+        cancel-running-future: true
+
+      thread-service-long:
+        timeout-duration: 10s
+        cancel-running-future: true
+
+  bulkhead:
+    instances:
+      thread-service:
+        maxConcurrentCalls: 8
+        maxWaitDuration: 100ms
+
+custom:
+  gatewayServiceUrl: http://${GATEWAY_SERVICE_SERVICE_INSTANCE:localhost}:${GATEWAY_SERVICE_PORT}
+  security.keycloak:
+    instance: http://${KEYCLOAK_INSTANCE:localhost}:${KEYCLOAK_PORT}
+
+  swagger:
+    projectOwner: ${PROJECT_OWNER}
+    projectOwnerUrl: ${PROJECT_OWNER_URL}
+
+  async:
+    db:
+      core-pool-size: 4
+      max-pool-size: 8
+      queue-capacity: 100
+      keep-alive-seconds: 30
+      await-termination-seconds: 60
+
+    view-counter:
+      core-pool-size: 2
+      max-pool-size: 8
+      queue-capacity: 1000
+      keep-alive-seconds: 60
+      await-termination-seconds: 30

@@ -13,6 +13,59 @@
     <artifactId>thread-service-commons</artifactId>
     <name>PCForum - Thread Service Commons</name>
 
+    <properties>
+        <profanity-filter.version>1.0.1</profanity-filter.version>
+    </properties>
+
+    <dependencies>
+        <!-- Auxiliary -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
+
+        <!-- DataFaker -->
+        <dependency>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+
+        <!-- Spring aspects -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+        </dependency>
+
+        <!-- Profanity filter -->
+        <dependency>
+            <groupId>com.modernmt.text</groupId>
+            <artifactId>profanity-filter</artifactId>
+            <version>${profanity-filter.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -22,6 +75,17 @@
 
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>pl/dawid0604/pcforum/thread/service/commons/exception/*.class</exclude>
+                        <exclude>pl/dawid0604/pcforum/thread/service/commons/dto/*.class</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

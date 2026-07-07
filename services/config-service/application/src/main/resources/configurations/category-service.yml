@@ -22,15 +22,61 @@ spring:
         useServerPrepStms: true
 
   flyway:
-    schemas: ${CATEGORY_MICROSERVICE_POSTGRES_DB}
     user: ${CATEGORY_MICROSERVICE_POSTGRES_USER}
     password: ${CATEGORY_MICROSERVICE_POSTGRES_PASSWORD}
     url: jdbc:postgresql://${CATEGORY_MICROSERVICE_DB_HOST:localhost}:${CATEGORY_MICROSERVICE_POSTGRES_PORT}/${CATEGORY_MICROSERVICE_POSTGRES_DB}
+    locations: classpath:migrations
 
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: validate
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt.issuer-uri: http://${KEYCLOAK_INSTANCE:localhost}:${KEYCLOAK_PORT}/realms/pcforum
+
 server:
   port: 0
+  tomcat.threads.virtual.enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      category-service:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 3
+        eventConsumerBufferSize: 10
+        slowCallRateThreshold: 100
+        slowCallDurationThreshold: 5s
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  retry:
+    instances:
+      category-service:
+        maxAttempts: 3
+        waitDuration: 1s
+        exponentialBackoffMultiplier: 2
+        retryExceptions:
+          - java.sql.SQLException
+          - java.io.IOException
+
+  timelimiter:
+    instances:
+      category-service:
+        timeout-duration: 5s
+        cancel-running-future: true
+
+custom:
+  gatewayServiceUrl: http://${GATEWAY_SERVICE_SERVICE_INSTANCE:localhost}:${GATEWAY_SERVICE_PORT}
+  security.keycloak:
+    instance: http://${KEYCLOAK_INSTANCE:localhost}:${KEYCLOAK_PORT}
+
+  swagger:
+    projectOwner: ${PROJECT_OWNER}
+    projectOwnerUrl: ${PROJECT_OWNER_URL}

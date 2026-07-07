@@ -61,11 +61,12 @@
 		<hk2.api.version>3.1.1</hk2.api.version>
 		<xtream.version>1.4.21</xtream.version>
 		<apache.commons-compress.version>1.28.0</apache.commons-compress.version>
-		<pmdPlugin.version>3.27.0</pmdPlugin.version>
-		<mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
-		<checkstylePlugin.version>3.6.0</checkstylePlugin.version>
+		<pmd-plugin.version>3.27.0</pmd-plugin.version>
+		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+		<checkstyle-plugin.version>3.6.0</checkstyle-plugin.version>
+		<checkstyle.version>10.20.2</checkstyle.version>
 		<rest-assured.version>5.5.5</rest-assured.version>
-		<springdoc.version>2.5.0</springdoc.version>
+		<springdoc.version>2.8.9</springdoc.version>
 		<springdoc.webflux.version>2.5.0</springdoc.webflux.version>
 		<scala.library.version>2.13.16</scala.library.version>
 		<io.commons.version>2.20.0</io.commons.version>
@@ -79,10 +80,16 @@
 		<tomcat-embed-core.version>10.1.44</tomcat-embed-core.version>
 		<netty.version>4.1.124.Final</netty.version>
 		<postgresql.version>42.7.7</postgresql.version>
+		<mapstruct.version>1.6.3</mapstruct.version>
+		<lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
+		<jnanoid.version>2.0.0</jnanoid.version>
+		<tomcat-annotations.version>10.1.44</tomcat-annotations.version>
+		<datafaker.version>2.4.4</datafaker.version>
+		<bucket4j-core.version>8.0.1</bucket4j-core.version>
+		<testcontainers-keycloak.version>3.8.0</testcontainers-keycloak.version>
 	</properties>
 
 	<modules>
-		<module>report-aggregate</module>
 		<module>services/config-service</module>
 		<module>services/discovery-service</module>
 		<module>services/user-service</module>
@@ -96,6 +103,7 @@
 		<module>services/moderation-service</module>
 		<module>services/gateway-service</module>
 		<module>services/frontend-service</module>
+		<module>report-aggregate</module>
     </modules>
 
 	<reporting>
@@ -110,6 +118,56 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.github.vladimir-bukhtoyarov</groupId>
+				<artifactId>bucket4j-core</artifactId>
+				<version>${bucket4j-core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.dasniko</groupId>
+				<artifactId>testcontainers-keycloak</artifactId>
+				<version>${testcontainers-keycloak.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.datafaker</groupId>
+				<artifactId>datafaker</artifactId>
+				<version>${datafaker.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.aventrix.jnanoid</groupId>
+				<artifactId>jnanoid</artifactId>
+				<version>${jnanoid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat-annotations-api</artifactId>
+				<version>${tomcat-annotations.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct-processor</artifactId>
+				<scope>provided</scope>
+				<version>${mapstruct.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok-mapstruct-binding</artifactId>
+				<scope>provided</scope>
+				<version>${lombok-mapstruct.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-core</artifactId>
@@ -392,13 +450,24 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${checkstylePlugin.version}</version>
+				<version>${checkstyle-plugin.version}</version>
+
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle.version}</version>
+					</dependency>
+				</dependencies>
 
 				<configuration>
 					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>false</failsOnError>
 					<violationSeverity>warning</violationSeverity>
+					<sourceDirectories>
+						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+					</sourceDirectories>
 				</configuration>
 
 				<executions>
@@ -429,11 +498,30 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${mavenCompilerPlugin.version}</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 					<release>${java.version}</release>
+
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${mapstruct.version}</version>
+						</path>
+
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>${lombok-mapstruct.version}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 
@@ -516,12 +604,18 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>${pmdPlugin.version}</version>
+				<version>${pmd-plugin.version}</version>
 
 				<configuration>
 					<rulesets>
 						<ruleset>config/pmd/custom-ruleset.xml</ruleset>
 					</rulesets>
+
+					<excludeRoots>
+						<excludeRoot>target/generated-sources</excludeRoot>
+						<excludeRoot>target/generated-test-sources</excludeRoot>
+						<excludeRoot>${project.build.directory}/generated-sources</excludeRoot>
+					</excludeRoots>
 				</configuration>
 
 				<executions>
