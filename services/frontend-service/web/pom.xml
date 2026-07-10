@@ -14,7 +14,7 @@
     <name>PCForum - Frontend Service Web</name>
 
     <properties>
-        <bootstrap.version>5.3.7</bootstrap.version>
+        <bootstrap.version>5.3.8</bootstrap.version>
         <jquery.version>3.7.1</jquery.version>
         <font-awesome.version>7.0.0</font-awesome.version>
         <alpinejs.version>3.14.9</alpinejs.version>
