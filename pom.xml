@@ -64,7 +64,7 @@
 		<pmdPlugin.version>3.27.0</pmdPlugin.version>
 		<mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
 		<checkstylePlugin.version>3.6.0</checkstylePlugin.version>
-		<rest-assured.version>5.5.5</rest-assured.version>
+		<rest-assured.version>5.5.6</rest-assured.version>
 		<springdoc.version>2.5.0</springdoc.version>
 		<springdoc.webflux.version>2.5.0</springdoc.webflux.version>
 		<scala.library.version>2.13.16</scala.library.version>
